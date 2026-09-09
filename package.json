@@ -1,0 +1,41 @@
+{
+  "name": "ottersnap-mcp",
+  "version": "0.3.2",
+  "description": "MCP server for the OtterSnap rendering API \u2014 give Claude, Cursor and other AI agents eyes: screenshots, PDFs and OG images from any URL.",
+  "type": "module",
+  "bin": {
+    "ottersnap-mcp": "index.js"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node test/smoke.mjs"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "screenshot",
+    "pdf",
+    "og-image",
+    "ai-agents",
+    "claude",
+    "otter"
+  ],
+  "license": "MIT",
+  "homepage": "https://ottersnap.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zzzjy765/ottersnap-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zzzjy765/ottersnap-mcp/issues"
+  },
+  "mcpName": "io.github.zzzjy765/ottersnap",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "zod": "^3.25.0"
+  }
+}

@@ -1,0 +1,19 @@
+# Smithery scanner config for ottersnap-mcp
+# https://smithery.ai — detects this file in the GitHub repo / npm package.
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      apiKey:
+        type: string
+        title: OtterSnap API Key
+        description: Your OtterSnap API key (otter_live_…). Get a free one at https://ottersnap.com/#getkey
+    required:
+      - apiKey
+  commandFunction: |-
+    (config) => ({
+      "command": "npx",
+      "args": ["-y", "ottersnap-mcp@latest"],
+      "env": { "OTTERSNAP_API_KEY": config.apiKey }
+    })
