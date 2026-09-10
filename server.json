@@ -1,5 +1,5 @@
 {
-  "$schema": "https://cdn.jsdelivr.net/npm/@modelcontextprotocol/sdk@latest/schema/server.json",
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
   "name": "io.github.zzzjy765/ottersnap",
   "title": "Glint Render — web rendering for AI agents",
   "description": "Screenshots, PDFs, OG images, monitoring and evidence for AI agents. Glint Render by Moyu.",
