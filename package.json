@@ -1,7 +1,7 @@
 {
   "name": "ottersnap-mcp",
-  "version": "0.3.2",
-  "description": "MCP server for the OtterSnap rendering API \u2014 give Claude, Cursor and other AI agents eyes: screenshots, PDFs and OG images from any URL.",
+  "version": "0.3.3",
+  "description": "Glint Render MCP server — give Claude, Cursor and other AI agents eyes on the web: screenshots, PDFs, OG images, monitoring and evidence from any URL.",
   "type": "module",
   "bin": {
     "ottersnap-mcp": "index.js"
@@ -14,12 +14,13 @@
   "keywords": [
     "mcp",
     "model-context-protocol",
+    "glint",
+    "glint-render",
     "screenshot",
     "pdf",
     "og-image",
     "ai-agents",
-    "claude",
-    "otter"
+    "claude"
   ],
   "license": "MIT",
   "homepage": "https://ottersnap.com",

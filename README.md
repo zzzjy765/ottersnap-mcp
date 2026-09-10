@@ -1,19 +1,19 @@
 # ottersnap-mcp
 
-MCP (Model Context Protocol) server for the [OtterSnap](https://ottersnap.com) rendering API — give Claude, Cursor, Codex and other AI agents **eyes on any web page**: pixel-perfect screenshots, print-ready PDFs and branded OG images from natural language.
+MCP (Model Context Protocol) server for **[Glint Render](https://ottersnap.com)** — the web rendering & evidence platform by Moyu. — give Claude, Cursor, Codex and other AI agents **eyes on any web page**: pixel-perfect screenshots, print-ready PDFs and branded OG images from natural language.
 
 ## Quick start
 
-Get a free API key at [ottersnap.com/#getkey](https://ottersnap.com/#getkey) (100 renders/month, no credit card), then add to your MCP client config:
+Get a free API key at [ottersnap.com/dashboard](https://ottersnap.com/dashboard) (100 renders/month, no credit card), then add to your MCP client config:
 
 ```json
 {
   "mcpServers": {
-    "ottersnap": {
+    "glint-render": {
       "command": "npx",
       "args": ["-y", "ottersnap-mcp"],
       "env": {
-        "OTTERSNAP_API_KEY": "otter_live_your_key_here"
+        "GLINT_API_KEY": "otter_live_your_key_here"
       }
     }
   }
@@ -54,7 +54,7 @@ ottersnap-mcp
 
 | Var | Required | Description |
 |---|---|---|
-| `OTTERSNAP_API_KEY` | yes | Your API key ([get one free](https://ottersnap.com/#getkey)) |
+| `GLINT_API_KEY` | yes | Your API key ([get one free](https://ottersnap.com/dashboard)). `OTTERSNAP_API_KEY` is still accepted for compatibility. |
 | `OTTERSNAP_API_URL` | no | Override for self-hosting / testing |
 
 ## License

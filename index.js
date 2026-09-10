@@ -1,16 +1,16 @@
 #!/usr/bin/env node
-// OtterSnap MCP server (stdio) — screenshots, PDFs and OG images for AI agents.
-// Env: OTTERSNAP_API_KEY (required), OTTERSNAP_API_URL (optional, default https://api.ottersnap.com)
+// Glint Render MCP server (stdio) — rendering, monitoring and evidence for AI agents.
+// Env: GLINT_API_KEY (required; OTTERSNAP_API_KEY still accepted), OTTERSNAP_API_URL (optional, default https://api.ottersnap.com)
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 
 const API = (process.env.OTTERSNAP_API_URL || "https://api.ottersnap.com").replace(/\/$/, "");
-const KEY = process.env.OTTERSNAP_API_KEY || "";
+const KEY = process.env.GLINT_API_KEY || process.env.OTTERSNAP_API_KEY || "";
 
 if (!KEY) {
-  console.error("ottersnap-mcp: OTTERSNAP_API_KEY env var is required (get a free key at https://ottersnap.com/#getkey)");
+  console.error("ottersnap-mcp: GLINT_API_KEY env var is required (get a free key at https://ottersnap.com/dashboard)");
   process.exit(1);
 }
 

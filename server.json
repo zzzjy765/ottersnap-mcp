@@ -1,0 +1,7 @@
+{
+  "$schema": "https://cdn.jsdelivr.net/npm/@modelcontextprotocol/sdk@latest/schema/server.json",
+  "name": "io.github.zzzjy765/ottersnap",
+  "title": "Glint Render — web rendering for AI agents",
+  "description": "Give Claude, Cursor and other AI agents eyes on the web: pixel-perfect screenshots, print-ready PDFs, OG images, page-change monitoring and tamper-evident evidence. Official MCP server of Glint Render by Moyu.",
+  "version": "0.3.3"
+}
