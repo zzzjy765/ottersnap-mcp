@@ -1,6 +1,6 @@
 {
   "name": "ottersnap-mcp",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Glint Render MCP server — give Claude, Cursor and other AI agents eyes on the web: screenshots, PDFs, OG images, monitoring and evidence from any URL.",
   "type": "module",
   "bin": {

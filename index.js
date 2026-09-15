@@ -28,7 +28,7 @@ async function call(path, body) {
   return Buffer.from(await res.arrayBuffer());
 }
 
-const server = new McpServer({ name: "ottersnap", version: "0.1.0" });
+const server = new McpServer({ name: "ottersnap", version: "0.3.4" });
 
 server.tool(
   "render_screenshot",
@@ -185,6 +185,77 @@ server.tool(
         { type: "text", text: `Code image created (${Math.round(buffer.length / 1024)} KB).` },
       ],
     };
+  }
+);
+
+// ---------- Workflows（自动化工作流）----------
+server.tool(
+  "workflow_create",
+  "Create a Glint workflow — an automation that runs steps (screenshot, extract, fetch, AI, email, webhook) on a trigger (schedule / page-change monitor / inbound webhook). 1 credit per run.",
+  {
+    name: z.string().describe("Workflow name, e.g. 'Competitor price watch'"),
+    triggerType: z.enum(["cron", "watch", "webhook"]).describe("cron = schedule, watch = run when a Glint monitor detects a change, webhook = run when the hook URL is POSTed"),
+    everyMinutes: z.number().int().min(15).optional().describe("For cron triggers: interval in minutes (min 15)"),
+    watchId: z.string().optional().describe("For watch triggers: the Glint monitor job id to react to"),
+    steps: z.array(z.object({
+      action: z.enum(["screenshot", "extract", "fetch", "ai", "email", "webhook"]),
+      url: z.string().optional().describe("Target URL for screenshot/extract/fetch/webhook steps"),
+      prompt: z.string().optional().describe("AI step: instruction for the model"),
+      input: z.string().optional().describe("AI step: input text, supports {{N.field}} references to earlier steps"),
+      to: z.string().optional().describe("Email step: recipient"),
+      subject: z.string().optional().describe("Email step: subject"),
+      body: z.string().optional().describe("Email step: body text, supports {{N.field}}"),
+      fullPage: z.boolean().optional().describe("Screenshot step: full-page capture"),
+    })).min(1).max(10).describe("Ordered steps; a failing step stops the chain"),
+  },
+  async (a) => {
+    const trigger = a.triggerType === "cron"
+      ? { type: "cron", everyMinutes: a.everyMinutes || 60 }
+      : a.triggerType === "watch"
+        ? { type: "watch", watchId: a.watchId }
+        : { type: "webhook" };
+    const wf = await call("/v1/workflows", { name: a.name, trigger, steps: a.steps });
+    const hook = trigger.type === "webhook" && wf.id
+      ? ` Hook URL: ${API}/v1/hook/${wf.id}/${trigger.secret}`
+      : "";
+    return { content: [{ type: "text", text: `Workflow created (${wf.id}).${hook}` }] };
+  }
+);
+
+server.tool(
+  "workflow_list",
+  "List your Glint workflows with trigger type, step count, enabled state and last run status.",
+  {},
+  async () => {
+    const data = await getJson("/v1/workflows");
+    const rows = (data.workflows || []).map((w) =>
+      `${w.name} [${w.id}] — ${w.trigger?.type || "?"}, ${Array.isArray(w.steps) ? w.steps.length : "?"} steps, ${w.enabled ? "enabled" : "paused"}, last run: ${w.last_status || "never"}`
+    );
+    return { content: [{ type: "text", text: rows.length ? rows.join("\n") : "No workflows yet." }] };
+  }
+);
+
+server.tool(
+  "workflow_run",
+  "Run a Glint workflow once immediately and return the result of every step.",
+  { id: z.string().describe("Workflow id (from workflow_list)") },
+  async (a) => {
+    const result = await call(`/v1/workflows/${a.id}/run`, {});
+    const lines = ((result.steps_log) || []).map((s) =>
+      `${s.ok ? "OK" : "FAIL"}  step ${s.step} (${s.action}) ${s.result?.url || s.result?.text || s.error || ""}`
+    );
+    return { content: [{ type: "text", text: `Run ${result.run_id}: ${result.status}${result.error ? " — " + result.error : ""}` }] };
+  }
+);
+
+server.tool(
+  "workflow_runs",
+  "Show the recent run history of a Glint workflow (status, error, step count).",
+  { id: z.string().describe("Workflow id") },
+  async (a) => {
+    const data = await getJson(`/v1/workflows/${a.id}/runs`);
+    const rows = (data.runs || []).map((r) => `${r.started_at}  ${r.status}${r.error ? " — " + r.error : ""}`);
+    return { content: [{ type: "text", text: rows.length ? rows.join("\n") : "No runs yet." }] };
   }
 );
 

@@ -39,10 +39,15 @@ ottersnap-mcp
 | `ai_extract` | URL + natural-language prompt → structured JSON extracted by LLM. |
 | `code_image` | Code snippet → macOS-window syntax-highlighted PNG. |
 | `check_usage` | Remaining renders for the configured key. |
+| `workflow_create` | Create a **workflow** — an automation that runs steps (screenshot, extract, fetch any public API, AI, email, webhook) on a schedule, when a monitored page changes, or via webhook. |
+| `workflow_list` | List your workflows: trigger, steps, enabled state, last run. |
+| `workflow_run` | Run a workflow immediately and report every step's result. |
+| `workflow_runs` | Recent run history of a workflow. |
 
 ## Example prompts
 
 - "Screenshot github.com/trending and tell me which repos mention Rust"
+- "Create a workflow that watches my landing page and emails me an AI summary whenever it changes"
 - "Take a dark-mode full-page capture of my landing page and check the footer renders"
 - "Extract every heading and link from https://example.com/docs as markdown"
 - "Scrape the product name, price and rating from this URL into JSON"
